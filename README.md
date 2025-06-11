@@ -2,13 +2,6 @@
 
 This repository is the official implementation of this paper.
 
-## Pretrained Weights
-You can download the pretrained weights from [Here](https://drive.google.com/drive/folders/1UD-rZDi7VJ7mcQlOnpznT8H7AXjowM7B?usp=sharing).
-
--  The "mstar.pth" is trained for multi-query scene text retrieval.
-
--  The "mstar_word.pth" is trained for word-level scene text retrieval.
-
 
 ## Requirements
 1. Create conda env:
