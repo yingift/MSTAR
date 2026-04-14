@@ -1,0 +1,75 @@
+ # Copyright (c) 2022, salesforce.com, inc.
+ # All rights reserved.
+ # SPDX-License-Identifier: BSD-3-Clause
+ # For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+
+model:
+  arch: blip2
+  model_type: pretrain_siglip512_hug_cross
+
+  load_pretrained: True
+  load_finetuned: False
+  freeze_vit: False
+  vit_precision: float
+  
+  # # finetune blip2 with clip-vit-large
+  # use_grad_checkpoint: False
+  # pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/blip2_pretrained_vitL.pth"
+  # vit_model: clip_L  
+
+datasets:
+  coco_retrieval: # name of the dataset builder
+    vis_processor:
+        train:
+          name: "blip2_image_train"
+          image_size: 512
+        eval:
+          name: "blip_image_eval"
+          image_size: 512
+    text_processor:
+        train:
+          name: "blip_caption"
+          max_words: 200
+        eval:
+          name: "blip_caption"
+          max_words: 150
+    build_info:
+        images:
+            storage: 'datasets/images/'
+            # storage: '/data/liangyin/TIR/textcap/'
+            # storage: '/data/liangyin/TIR/MLT2019/MLT2019-5K/train_images/'
+          # storage: /data/liangyin/.cache/lavis/coco/images/
+
+
+
+run:
+  task: retrieval
+  # optimizer
+  lr_sched: "linear_warmup_cosine_lr"
+  init_lr: 1e-5
+  min_lr: 5e-8
+  warmup_lr: 1e-7
+  warmup_steps: 100
+  weight_decay: 0.10
+  max_epoch: 16
+  batch_size_train: 6
+  batch_size_eval: 400
+  lr_layer_decay: 0.95 # layer-wise learning rate decay for the ViT 
+  num_workers: 4
+  accum_grad_iters: 1
+
+  seed: 42
+  output_dir: "output/mqtr_retrieval/stage1_siglip512/"
+  amp: True
+  resume_ckpt_path: 
+  evaluate: False
+  train_splits: ["train"]
+  # valid_splits: ["test"]
+  # test_splits: ["test"]
+  k_test: 128
+
+  device: "cuda"
+  world_size: 2
+  dist_url: "env://"
+  distributed: True
+  use_dist_eval_sampler: False

@@ -1,0 +1,50 @@
+ # Copyright (c) 2022, salesforce.com, inc.
+ # All rights reserved.
+ # SPDX-License-Identifier: BSD-3-Clause
+ # For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+
+model:
+  arch: pretrain
+  load_finetuned: False
+
+  # pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/blip2_pretrained_vitL.pth"
+  # pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/checkpoint_21.pth"
+  # pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/checkpoint_23_8_3_pretrain.pth"
+  # pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/mstr640_hug_cross.pth"
+  pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/mstr_hugcross_640_5k.pth"
+  # pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/mstr640_hug_cross_1212_ck7.pth"
+
+  # vit encoder
+  vit_model: "siglip-base-512"
+  image_size: 800
+  drop_path_rate: 0
+  use_grad_checkpoint: False
+  vit_precision: "fp16"
+  freeze_conv: True
+  freeze_vit: True
+  is_learnable_query: False
+  max_txt_len: 32
+  vision_width: 1024
+  cross_attention_freq: 2
+  kg_loss_weight: 0
+  loss_itc_weight: 1
+  agg_method: 'hug_cross'
+
+  # Q-Former
+  num_query_token: 64
+
+preprocess:
+    vis_processor:
+        train:
+          name: "blip2_image_train"
+          image_size: 800
+
+        eval:
+          name: "blip_image_eval"
+          image_size: 800
+
+    text_processor:
+        train:
+          name: "blip_caption"
+        eval:
+          name: "blip_caption"
