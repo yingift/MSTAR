@@ -1,10 +1,12 @@
 <div align="center">
 
-# 🌟 MSTAR: Box-Free Multi-Query Scene Text Retrieval with Attention Recycling
+# 🌟 【NeurIPS 2025】MSTAR: Box-Free Multi-Query Scene Text Retrieval with Attention Recycling
 
 <p>
   <a href="https://arxiv.org/abs/2506.10609"><img src="https://img.shields.io/badge/arXiv-2506.10609-b31b1b.svg" alt="arXiv"></a>
   <a href="https://neurips.cc/virtual/2025/poster/"><img src="https://img.shields.io/badge/NeurIPS-2025%20Poster-4b44ce.svg" alt="NeurIPS 2025"></a>
+  <a href="https://huggingface.co/stableapuppy/MSTAR"><img src="https://img.shields.io/badge/🤗%20Model-HuggingFace-ffd21e.svg" alt="Model"></a>
+  <a href="https://huggingface.co/datasets/stableapuppy/MQTR"><img src="https://img.shields.io/badge/🤗%20Dataset-HuggingFace-ffd21e.svg" alt="Dataset"></a>
   <a href="https://github.com/yingift/MSTAR"><img src="https://img.shields.io/github/stars/yingift/MSTAR?style=social" alt="GitHub Stars"></a>
   <a href="https://github.com/yingift/MSTAR/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg" alt="License"></a>
 </p>
@@ -35,10 +37,9 @@ Huazhong University of Science and Technology
 </div>
 
 ## 🔥 News
-
+- **[2026/04]** 💻 Code, weight and dataset are released.
 - **[2025/09]** 🎉 MSTAR is accepted by **NeurIPS 2025** as a poster!
 - **[2025/06]** 📄 Paper is available on [arXiv](https://arxiv.org/abs/2506.10609).
-- **[2025/06]** 💻 Code and MQTR dataset are released.
 
 ## ✨ Highlights
 
@@ -103,7 +104,7 @@ Place the evaluation datasets in the `datasets/` folder. We support the followin
 | CTW | Word Retrieval | [Link](https://github.com/HCIILAB/Scene-Text-Recognition/blob/master/README.md) |
 | ICDAR15 | Word Retrieval | [Link](https://github.com/HCIILAB/Scene-Text-Recognition/blob/master/README.md) |
 | PSTR | Phrase Retrieval | [Link](https://github.com/Gyann-z/FDP) |
-| **MQTR** (Ours) | Multi-Query Retrieval | [Download](#) |
+| **MQTR** (Ours) | Multi-Query Retrieval | [Download]([#](https://huggingface.co/datasets/stableapuppy/MQTR)) |
 
 The expected directory structure:
 ```
