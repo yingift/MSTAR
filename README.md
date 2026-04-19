@@ -241,11 +241,6 @@ bash run_scripts/eval/eval_mqtr.sh
 
 > 📊 *FT = FineTune. MSTAR outperforms all previous methods by a significant margin on the MQTR benchmark.*
 
-## 🔍 Visualization
-
-<p align="center">
-  <img src="assets/visualization.png" width="95%">
-</p>
 
 ## 📝 Citation
 
