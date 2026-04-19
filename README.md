@@ -5,13 +5,15 @@
 <p>
   <a href="https://arxiv.org/abs/2506.10609"><img src="https://img.shields.io/badge/arXiv-2506.10609-b31b1b.svg" alt="arXiv"></a>
   <a href="https://neurips.cc/virtual/2025/poster/"><img src="https://img.shields.io/badge/NeurIPS-2025%20Poster-4b44ce.svg" alt="NeurIPS 2025"></a>
-  <a href="https://huggingface.co/stableapuppy/MSTAR"><img src="https://img.shields.io/badge/🤗%20Model-HuggingFace-ffd21e.svg" alt="Model"></a>
-  <a href="https://huggingface.co/datasets/stableapuppy/MQTR"><img src="https://img.shields.io/badge/🤗%20Dataset-HuggingFace-ffd21e.svg" alt="Dataset"></a>
+  <a href="https://huggingface.co/stableapuppy/MSTAR"><img src="https://img.shields.io/badge/🤗%20Model-MSTAR-ffd21e.svg" alt="Model"></a>
+  <a href="https://huggingface.co/datasets/stableapuppy/MQTR"><img src="https://img.shields.io/badge/🤗%20Dataset-MQTR-ffd21e.svg" alt="MQTR Dataset"></a>
+  <a href="https://huggingface.co/datasets/stableapuppy/MSTAR--Training"><img src="https://img.shields.io/badge/🤗%20Dataset-MSTAR--Training-ffd21e.svg" alt="MSTAR-Training Dataset"></a>
   <a href="https://github.com/yingift/MSTAR"><img src="https://img.shields.io/github/stars/yingift/MSTAR?style=social" alt="GitHub Stars"></a>
   <a href="https://github.com/yingift/MSTAR/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg" alt="License"></a>
 </p>
 
-**[Liang Yin](https://github.com/yingift), [Xudong Xie](https://github.com/), [Zhang Li](https://github.com/), [Xiang Bai](https://github.com/), [Yuliang Liu✉](https://github.com/)**
+
+**Liang Yin, Xudong Xie, Zhang Li, Xiang Bai, Yuliang Liu✉**
 
 Huazhong University of Science and Technology
 
@@ -24,15 +26,6 @@ Huazhong University of Science and Technology
 <p>
   <strong>MSTAR</strong> is a <em>box-free</em> approach for scene text retrieval that eliminates costly bounding box annotations while unifying diverse query types (word, phrase, combined, semantic) within a single model.
 </p>
-
-### 🏆 Performance Highlights
-
-| | Metric | Value |
-|:---:|:---|:---:|
-| 📈 | **+6.4% MAP** on Total-Text over previous SOTA (box-free, no box annotation needed!) | **85.55** |
-| 📈 | **+8.5% Avg. MAP** on MQTR over all previous methods | **66.78** |
-| 📈 | **95.71 MAP** on PSTR, surpassing FDP by **+3.43%** | **95.71** |
-| 🚫 | **Zero** bounding box annotations required for training | **Box-Free** |
 
 </div>
 
@@ -81,15 +74,19 @@ pip install -r requirements.txt
 
 ### Training Data
 
-| Dataset | Description | Link |
-|---------|-------------|------|
-| SynthText_900KDict | Synthetic text images for pre-training | [Download](https://github.com/lluisgomez/single-shot-str) |
-| MLT-5K | Multi-lingual scene text dataset | [Download](https://github.com/lanfeng4659/STR-TDSL) |
-
 **Steps:**
 1. Download the datasets from the links above.
 2. Follow the training annotation files to extract images from SynthText_900KDict and MLT-5K.
 3. Place the extracted images into the `images/` folder.
+
+| Dataset | Description | Link | 
+|---------|-------------|------|
+| SynthText_900KDict | Synthetic text images for pre-training | [Download](https://github.com/lluisgomez/single-shot-str) |
+| MLT-5K | Multi-lingual scene text dataset | [Download](https://github.com/lanfeng4659/STR-TDSL) |
+|TextCap |TextCaps Challenge 2020 |[Download](https://textvqa.org/textcaps/dataset/)|
+|SynthPhrase-images25k|Private data with [Synthtext](https://github.com/ankush-me/SynthText)|[Download](https://huggingface.co/datasets/stableapuppy/MSTAR-Training/)|
+|Annotations|Formated annotations for word retrieval/mqtr.|[Download](https://huggingface.co/datasets/stableapuppy/MSTAR-Training/)|
+
 
 ### Evaluation Data
 
@@ -130,10 +127,12 @@ MSTAR/
 
 ## 🚀 Training
 
-### Train MSTAR
-
+**Multi-stage training**
 ```bash
-bash run_scripts/train/train_mstar.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=10021 --nproc_per_node=4 train.py --cfg-path lavis/projects/blip2/train/siglip/word/stage1_pt_siglip512.yaml
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=10021 --nproc_per_node=4 train.py --cfg-path lavis/projects/blip2/train/siglip/word/stage2_ft_siglip640.yaml
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=10021 --nproc_per_node=4 train.py --cfg-path lavis/projects/blip2/train/siglip/word/stage3_ft_siglip800.yaml
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=10021 --nproc_per_node=4 train.py --cfg-path lavis/projects/blip2/train/siglip/word/stage4_ft_siglip800.yaml
 ```
 
 The training script uses the LAVIS framework with `blip2_image_text_matching` as the base model. Key training configurations can be modified in the script or the corresponding config files.
@@ -142,37 +141,25 @@ The training script uses the LAVIS framework with `blip2_image_text_matching` as
 
 ### 1. Prepare Pretrained Weights
 
-Download the pretrained model weights and place them in the `mstar_weights/` folder:
+Download the pretrained model [weights](https://huggingface.co/stableapuppy/MSTAR) and place them in the `mstar_weights/` folder:
 
 | Model | Download |
 |-------|----------|
 | MSTAR (Word) | `mstar_weights/mstar_word1.pth` |
+| MSTAR (MQTR) | `mstar_weights/mstar1.pth` |
 
-### 2. Evaluate on Word Retrieval Benchmarks
+### 2. Evaluate on Scene Text Retrieval Benchmarks
 
-Evaluate on public word-level datasets (SVT, STR, CTR, Total-Text, CTW, ICDAR15):
+Evaluate on public **word-level datasets** (SVT, STR, CTR, Total-Text, CTW, ICDAR15):
 
 ```bash
 bash run_scripts/eval/eval_word.sh
 ```
 
-You can modify the dataset and parameters in the script. For example, to evaluate on a specific dataset:
+Evaluate on the **MQTR dataset and PSTR dataset**:
 
 ```bash
-# Set the checkpoint and ViT model
-CHK=mstar_weights/mstar_word1.pth
-VIT=ft_siglip800_word_hug_rnn
-
-# Evaluate on a specific dataset (e.g., SVT, STR, CTR, TotalText, CTW, ICDAR15)
-python eval/evaluate.py --dataset SVT \
-    --rerank \
-    --top_k_ratio 0.05 \
-    --device 'cuda:0' \
-    --model_name blip2_image_text_matching \
-    --vit $VIT \
-    --batch_size 1 \
-    --text_prompt 'default' \
-    --checkpoint $CHK
+bash run_scripts/eval/eval_mqtr.sh
 ```
 
 **Key Arguments:**
@@ -188,12 +175,6 @@ python eval/evaluate.py --dataset SVT \
 | `--batch_size` | Evaluation batch size | `1` |
 | `--text_prompt` | Text prompt style | `default` |
 | `--checkpoint` | Path to pretrained weights | - |
-
-### 3. Evaluate on Multi-Query Retrieval (MQTR)
-
-```bash
-bash run_scripts/eval/eval_mstar.sh
-```
 
 > 💡 **Tip:** Image embeddings are cached in `image_cache/{dataset}/` to speed up repeated evaluations. The cache is automatically rebuilt for each run.
 
