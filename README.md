@@ -7,7 +7,7 @@
   <a href="https://neurips.cc/virtual/2025/poster/"><img src="https://img.shields.io/badge/NeurIPS-2025%20Poster-4b44ce.svg" alt="NeurIPS 2025"></a>
   <a href="https://huggingface.co/stableapuppy/MSTAR"><img src="https://img.shields.io/badge/🤗%20Model-MSTAR-ffd21e.svg" alt="Model"></a>
   <a href="https://huggingface.co/datasets/stableapuppy/MQTR"><img src="https://img.shields.io/badge/🤗%20Dataset-MQTR-ffd21e.svg" alt="MQTR Dataset"></a>
-  <a href="https://huggingface.co/datasets/stableapuppy/MSTAR--Training"><img src="https://img.shields.io/badge/🤗%20Dataset-MSTAR--Training-ffd21e.svg" alt="MSTAR-Training Dataset"></a>
+  <a href="https://huggingface.co/datasets/stableapuppy/MSTAR-Training"><img src="https://img.shields.io/badge/🤗%20Dataset-MSTAR-Training-ffd21e.svg" alt="MSTAR-Training Dataset"></a>
   <a href="https://github.com/yingift/MSTAR"><img src="https://img.shields.io/github/stars/yingift/MSTAR?style=social" alt="GitHub Stars"></a>
   <a href="https://github.com/yingift/MSTAR/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg" alt="License"></a>
 </p>
